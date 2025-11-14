@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <meta name="googlebot-extended" content="noindex">
+<meta name="GPTBot" content="nofollow">
+
+    <title>Chesapeake Bay and tributaries shipwreck map</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f0f0f0;
+        }
+
+        .map-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            aspect-ratio: 400 / 320;
+        }
+
+        .map-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: top center;
+            display: block;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .location-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .location-marker:hover {
+            background: rgba(148, 110, 41, 1);
+            color: #fff;
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .location-marker:active {
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        .location-marker::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(148, 110, 41, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        .popup {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 66.67%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            padding: 10px 14px;
+            overflow-y: auto;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+        }
+
+        .popup.active {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+       
+
+        .popup h2 {
+            font-size: 14.5px;
+            margin-bottom: 12px;
+            color: #000;
+            padding-right: 10px;
+        }
+
+        .popup p {
+            font-size: 12.67px;
+            line-height: 1.33;
+            color: #000;
+        }
+
+        .popup-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .popup-overlay.active {
+            pointer-events: all;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <img src="https://baltimore-sun.github.io/timeline/images/chesapeake-bay-potomac-shipwrecks-map.png" alt="Chesapeake Bay Map">
+        
+        <div class="overlay">
+            <div class="location-marker" data-location="1" style="top: 10%; left: 56%;">1</div>
+            <div class="location-marker" data-location="2" style="top: 14%; left: 60%;">2</div>
+            <div class="location-marker" data-location="3" style="top: 17%; left: 88%;">3</div>
+            <div class="location-marker" data-location="4" style="top: 27%; left: 50%;">4</div>
+            <div class="location-marker" data-location="5" style="top: 38%; left: 56%;">5</div>
+            <div class="location-marker" data-location="6" style="top: 51%; left: 11%;">6</div>
+            <div class="location-marker" data-location="7" style="top: 51%; left: 88%;">7</div>
+            <div class="location-marker" data-location="8" style="top: 77%; left: 47%;">8</div>
+            <div class="location-marker" data-location="9" style="top: 80%; left: 52%;">9</div>
+            <div class="location-marker" data-location="10" style="top: 93%; left: 63%;">10</div>
+        </div>
+
+        <div class="popup-overlay" id="popupOverlay">
+            <div class="popup" id="popup">
+                <button class="close-btn" id="closeBtn">×</button>
+                <h2 id="popupTitle">Location Title</h2>
+                <p id="popupContent">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const locationData = {
+            '1': {
+                title: 'Mary A. DeKnight • 1879 • Chesapeake Bay',
+                content: 'This 150-foot, three-masted schooner, which was probably engaged in coastal trade to move bulk cargo like lumber and grain between Bay ports, capsized with the loss of all hands off the west coast of Kent Island on April 3, 1879. Workers scanning the area for a dredge project in 1990 <a href="https://apps.mht.maryland.gov/synthesis/pdf/18QU242.pdf" target="_blank" style="color:#946e29;border-bottom: 1px dotted #f0f0f0;" rel="nofollow noopener">found its remains</a>, which are considered to be relatively well preserved, though it’s not recommended for sport divers. The site is situated in marine sediments under about 100 feet of water.'
+            },
+            '2': {
+                title: 'Herbert D. Maxwell • 1912 • Chesapeake Bay',
+                content: 'The <a href="https://apps.mht.maryland.gov/synthesis/pdf/18QU241.pdf" target="_blank" rel="nofollow noopener" style="color:#946e29;border-bottom: 1px dotted #f0f0f0;">Herbert D. Maxwell</a>, a four-masted cargo schooner built in 1905, sank just off Kent Island in 1912 after being rammed by a steel steamer, the SS Gloucester, while carrying fertilizer from Baltimore to North Carolina. First recorded as an archeological site in 1990, it’s located near the Bay Bridge under 70 feet of water. Its hull is unusually well preserved. A popular dive spot.'
+            },
+            '3': {
+                title: 'Martinak Boat • 19th century • Watts Creek',
+                content: 'Remnants of an <a href="https://mht.maryland.gov/Documents/archaeology/currentresearch/martinak.pdf" target="_blank" style="color:#946e29;border-bottom: 1px dotted #f0f0f0;" rel="nofollow noopener">early 19th-century cargo schooner</a> – a forerunner of the Chesapeake “pungy” – were found in Watts Creek, a tributary of the Choptank River in Caroline County, in 1964 and 1969, as workmen built a launching ramp. Preserved for about 150 years by the creek’s  mud and silt, the timbers became part of the reconstructed keel of the 70-foot vessel, now on permanent display in a pavilion in Martinak State Park in Denton.'
+            },
+            '4': {
+                title: 'Levin J. Marvel • 1955 • Herring Bay',
+                content: 'The <a href="https://www.baltimoresun.com/2004/04/24/ship-was-a-tragedy-waiting-to-happen/" target="_blank" style="color:#946e29;border-bottom: 1px dotted #f0f0f0;" rel="nofollow noopener">Levin J. Marvel</a>, a 125-foot, triple-deck Chesapeake ram schooner built in 1891, was converted into a passenger ship in 1945. It was hosting an adventure cruise on August 12, 1955, when Hurricane Connie capsized it in Herring Bay just off North Beach, Maryland, in northern Calvert County. Fourteen of 27 on board lost their lives, the most fatalities in a Bay disaster in modern times. Location of its broken-up pieces is uncertain.'
+            },
+            '5': {
+                title: 'SS New Jersey • 1870 • Chesapeake Bay',
+                content: 'The SS New Jersey, a 160-foot “steam-screw” freighter and part of the Baltimore Steam Packet Company fleet, burned and sank in the Chesapeake Bay just south of Poplar Island, Talbot County, in 1870. Divers who discovered it in murky water in 1975 found dozens of crates of period glassware and other cargo. The wreck is mostly in ruins consisting of exposed ribbing. Experts warn against trying to make the hazardous dive.'
+            },
+            '6': {
+                title: 'Mallows Bay Ghost Fleet • 1920s-40s • Mallows Bay',
+                content: 'The ruins of more than 100 wood-hulled steamships built for use in World War I loom in view in <a href="https://www.baltimoresun.com/2019/04/04/a-fleet-of-world-war-i-ghost-ships-can-be-found-in-a-maryland-bay-a-proposal-to-protect-them-is-stalled/" target="_blank" style="color:#946e29;border-bottom: 1px dotted #f0f0f0;" rel="nofollow noopener">Mallows Bay</a>, a shallow inlet of the Potomac, near Nanjemoy, Maryland, in Charles County. Experts have called the site “the largest maritime graveyard in the Western hemisphere.” The ships were never used in battle; their remains were brought to the Potomac to be salvaged for scrap by a company in nearby Alexandria, Virginia. They’re now a core part of a 18-square-mile national marine sanctuary, where the hulls serve as wildlife habitat.'
+            },
+            '7': {
+                title: '18th-Century Merchant Ship • 18th century • Nanticoke River',
+                content: 'Workers for the State Highway Administration found the remains of this 45-foot, <a href="https://www.baltimoresun.com/2015/08/28/nanticoke-river-shipwreck-could-be-linked-to-revolutionary-war-skirmish/" target="_blank" style="color:#946e29;border-bottom: 1px dotted #f0f0f0;" rel="nofollow noopener">pre-Revolutionary War merchant ship</a> in the Nanticoke River while clearing debris under U.S. 50 between Cambridge and Salisbury in 2015. Analysts found it was made from oak harvested along the mid-Chesapeake Bay in about 1743 and served as a carrier of tobacco and foodstuffs. One of the earliest Maryland-made vessels found as a shipwreck, it was considered a significant find for studying early maritime history in the Chesapeake Bay region. The timbers were transported to the Maryland Archaeology Conservation Laboratory in Calvert County for stabilization and study.'
+            },
+            '8': {
+                title: 'USS Tulip • 1864 • Potomac River',
+                content: 'This <a href="https://www.history.navy.mil/research/underwater-archaeology/sites-and-projects/ship-wrecksites/uss-tulip.html" target="_blank" style="color:#946e29;border-bottom: 1px dotted #f0f0f0;" rel="nofollow noopener">steam-screw gunboat</a> for the Union Navy was headed from St. Mary’s City up the Potomac River toward Washington, D.C., for repairs, on the evening of Nov. 11, 1864, when its starboard boiler exploded off Ragged Point, Va., sinking the ship and killing 49 of its 57 crew members. Discovered unofficially by sport divers in the 1960s, then the Maryland Maritime Archaeology Project in 1994, it contained artifacts and human remains. MMAP has facilitated the return of 1,500 illegally removed artifacts such as armaments, uniforms, medicinal bottles and tools. Eight of the deceased are buried in a federal cemetery in St. Inigoes, St. Mary’s County.'
+            },
+            '9': {
+                title: 'U-1105 • 1949 • Potomac River',
+                content: 'In April 1945, this <a href="https://www.baltimoresun.com/1995/05/08/sunken-german-u-boat-becomes-states-first-diving-preserve/" target="_blank" style="color:#946e29;border-bottom: 1px dotted #f0f0f0;" rel="nofollow noopener">German U-boat</a> torpedoed a British frigate, killing 32 sailors, then remained undetected at the bottom. It was turned over to the British Navy, then the U.S., after the war. U.S. Navy Investigators studied its stealth technology, then used it for demolition testing, before sinking it in 1949. Sport divers discovered it in 1985; it became the state’s first historic shipwreck preserve in 1995. It’s some 90 feet down about a mile west of Piney Point in the Potomac River. A popular spot for experienced divers.'
+            },
+            '10': {
+                title: 'Curlew • 1863 • Chesapeake Bay',
+                content: 'This three-masted, wooden-hulled propeller freight boat, built in 1856 and used as a gunboat during the Civil War, collided with the northbound steamer Louisiana near midnight on a dark, cloudy night near Point Lookout on Nov. 5, 1863. The Curlew sank, but its captain and crew rowed to safety at Point Lookout. Sport divers discovered the wreckage in 1988; it was documented in 1993.'
+            }
+        };
+
+        const markers = document.querySelectorAll('.location-marker');
+        const popup = document.getElementById('popup');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+        const popupTitle = document.getElementById('popupTitle');
+        const popupContent = document.getElementById('popupContent');
+
+        markers.forEach(marker => {
+    marker.addEventListener('click', (e) => {
+        const location = e.currentTarget.dataset.location;
+        const data = locationData[location];
+        
+        popupTitle.textContent = data.title;
+        // 👇 Change to innerHTML to render HTML markup
+        popupContent.innerHTML = data.content; 
+        
+        popup.classList.add('active');
+        popupOverlay.classList.add('active');
+        
+        // Disable all markers
+        markers.forEach(m => m.style.pointerEvents = 'none');
+    });
+});
+
+        function closePopup() {
+            popup.classList.remove('active');
+            popupOverlay.classList.remove('active');
+            
+            // Re-enable all markers
+            markers.forEach(m => m.style.pointerEvents = 'auto');
+        }
+
+        closeBtn.addEventListener('click', closePopup);
+        
+        // Close popup when clicking outside of it
+        popupOverlay.addEventListener('click', (e) => {
+            if (e.target === popupOverlay) {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>
